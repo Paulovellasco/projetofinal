@@ -1,7 +1,9 @@
-package br.iesb.grupo1.projetofinal;
+package br.iesb.grupo1.projetofinal.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import br.iesb.grupo1.projetofinal.R;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
