@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText txtEmail;
     private EditText txtSenha;
+    private TextView txtRegister;
+    private TextView txtRetrieve;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +42,27 @@ public class LoginActivity extends AppCompatActivity {
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((txtEmail != null) || (txtSenha != null)) {
+                if ((txtEmail != null) && (txtSenha != null)) {
                     signIn(txtEmail.getText().toString(), txtSenha.getText().toString());
                 } else {
                     Toast.makeText(LoginActivity.this, "Campos vazios ", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        txtRegister = findViewById(R.id.txtRegister);
+        txtRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent t = new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(t);
+            }
+        });
+
+        txtRetrieve = findViewById(R.id.txtRetrieve);
+        txtRetrieve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,RetrieveActivity.class));
             }
         });
 
