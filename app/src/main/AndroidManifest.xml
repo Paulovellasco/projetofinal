@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.iesb.grupo1.projetofinal">
 
+    <!-- EMAIL E SENHA -->
+    <!-- Email : lulamoluscopi senha : projetofinal -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
