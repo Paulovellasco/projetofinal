@@ -39,14 +39,19 @@ public class LoginActivity extends AppCompatActivity {
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((txtEmail != null) || (txtSenha != null)) {
-                    signIn(txtEmail.getText().toString(), txtSenha.getText().toString());
-                } else {
-                    Toast.makeText(LoginActivity.this, "Campos vazios ", Toast.LENGTH_SHORT).show();
+                if ((txtEmail != null) && (txtSenha != null)) {
+                    if(txtEmail.getText() != null) {
+                        if (txtSenha.getText() != null) {
+                            signIn(txtEmail.getText().toString(), txtSenha.getText().toString());
+                        }else{
+                            Toast.makeText(LoginActivity.this, "Campos senha é obrigatório", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(LoginActivity.this, "Campos email é obrigatório", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
-
     }
 
     public void onStart() {
@@ -59,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             Intent t = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(t);
                         } else {
