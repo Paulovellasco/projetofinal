@@ -3,7 +3,7 @@
     package="br.iesb.grupo1.projetofinal">
 
     <!-- EMAIL E SENHA -->
-    <!-- Email : lulamoluscopi senha : projetofinal -->
+    <!-- Email : lulamoluscopi senha : projetofinaliesb -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application

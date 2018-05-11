@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-    private void createAccount(String email,String password){
+    private void createAccount(final String email, String password){
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference var = db.getReference("teste/");
         var.setValue("login");
@@ -105,7 +105,8 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this,"Register Failed",Toast.LENGTH_SHORT).show();
                         } else {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent t = new Intent(RegisterActivity.this,MainActivity.class);
+                            Intent t = new Intent(RegisterActivity.this,ProfileActivity.class);
+                            t.putExtra("email", email);
                             startActivity(t);
                         }
                     }
