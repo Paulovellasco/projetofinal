@@ -1,13 +1,16 @@
 package br.iesb.grupo1.projetofinal.activities;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
     String currentUserStoredEmail;
 
     Button btnSaveProfile;
+    Button btnChangePassword;
 
     FirebaseDatabase database;
     DatabaseReference databaseReference;
@@ -42,8 +46,9 @@ public class ProfileActivity extends AppCompatActivity {
         txProfileEmail.setText(currentUserStoredEmail);
         txProfileName = findViewById(R.id.txNameProfileField);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
+        btnChangePassword = findViewById(R.id.btnChangePassword);
 
-        //SET LISTENER
+        //SET LISTENER FOR SAVE BUTTON
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +61,23 @@ public class ProfileActivity extends AppCompatActivity {
                         saveProfileData(txProfileName.getText().toString());
                     }
                 }
+            }
+        });
+
+        //SET LISTENER FOR CHANGE PASSWORD BUTTON
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+
+                auth.sendPasswordResetEmail(currentUserStoredEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(ProfileActivity.this, "Email sent!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
             }
         });
     }
