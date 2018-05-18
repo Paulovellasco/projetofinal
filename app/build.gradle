@@ -15,7 +15,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug{
+        debug {
             debuggable true
         }
     }
@@ -38,6 +38,7 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
 
 }
+
 
 
 

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnGoToEditProfile;
     Button btnLogOut;
+    ImageView imgMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +43,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        imgMain = findViewById(R.id.imgMain);
+        imgMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent  t = new Intent(MainActivity.this,ListActivity.class);
+                startActivity(t);
+            }
+        });
+
+
     }
 }
