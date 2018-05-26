@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnGoToEditProfile;
     Button btnLogOut;
+    Button btnListJobs;
     ImageView imgMain;
 
     @Override
@@ -53,6 +54,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnListJobs = findViewById(R.id.btnListJobs);
+        btnListJobs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent t = new Intent(MainActivity.this,JobListActivity.class);
+                startActivity(t);
+            }
+        });
 
     }
 }

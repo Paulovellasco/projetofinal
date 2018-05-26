@@ -40,12 +40,12 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        db = FirebaseDatabase.getInstance();
-        dr = db.getReference("/recicleView");
+        db = FirebaseDatabase.getInstance(); // pega uma instancia do banco
+        dr = db.getReference("/recicleView"); //pega uma referencia do no
         dr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                for(DataSnapshot ds : dataSnapshot.getChildren()){  //para cada item do no
                     UserTest usuario = ds.getValue(UserTest.class);
                     userArray.add(usuario);
 
