@@ -25,7 +25,7 @@ public class JobListActivity extends AppCompatActivity {
 
 
         jService = retrofitJob.create(Job.JobService.class);
-        Log.d("-------------------->",jService.toString());
+
 
 
     }

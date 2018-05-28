@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,6 +82,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signIn(String email, String password) {
+        Log.d("Tag asasasas",email);
+        if(email=="" || password==""){
+            Toast.makeText(LoginActivity.this,"Todos os campos devem ser preenchidos",Toast.LENGTH_SHORT).show();
+        }else{
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -93,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+        }
     }
 
 }

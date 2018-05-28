@@ -4,6 +4,8 @@
 
     <!-- EMAIL E SENHA -->
     <!-- Email : lulamoluscopi senha : projetofinaliesb -->
+    <!-- AppToken Catho = HzSYDdpuDBvj/ 3Sv4tLMAKO5g -->
+    <!-- AuthToken Catho = 18GkAT5WLYj7 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
