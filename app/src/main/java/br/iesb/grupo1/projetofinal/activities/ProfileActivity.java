@@ -1,12 +1,18 @@
 package br.iesb.grupo1.projetofinal.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +30,15 @@ public class ProfileActivity extends AppCompatActivity {
     TextView txProfileName;
     String currentUserStoredEmail;
 
+    ImageView imgProfileImage;
+
     Button btnSaveProfile;
     Button btnChangePassword;
 
     FirebaseDatabase database;
     DatabaseReference databaseReference;
+
+    private static final int RESULT_LOAD_IMG = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
         txProfileEmail = findViewById(R.id.txProfileEmailField);
         txProfileEmail.setText(currentUserStoredEmail);
         txProfileName = findViewById(R.id.txNameProfileField);
+        imgProfileImage = findViewById(R.id.imgProfileImage);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
         btnChangePassword = findViewById(R.id.btnChangePassword);
 
@@ -61,6 +72,15 @@ public class ProfileActivity extends AppCompatActivity {
                         saveProfileData(txProfileName.getText().toString());
                     }
                 }
+            }
+        });
+
+        //SET LISTENER FOR PROFILE IMAGE
+        imgProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, RESULT_LOAD_IMG);
             }
         });
 
@@ -92,5 +112,23 @@ public class ProfileActivity extends AppCompatActivity {
         Intent i = new Intent(ProfileActivity.this, MainActivity.class);
         startActivity(i);
 
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data){
+            Uri selectImage = data.getData();
+            String[] filePath = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContentResolver().query(selectImage, filePath, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePath[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            imgProfileImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+        }
     }
 }
