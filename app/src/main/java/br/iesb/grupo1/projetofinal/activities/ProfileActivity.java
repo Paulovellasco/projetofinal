@@ -19,10 +19,14 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import br.iesb.grupo1.projetofinal.R;
+import br.iesb.grupo1.projetofinal.util.UserTest;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -35,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
     Button btnSaveProfile;
     Button btnChangePassword;
 
+    FirebaseAuth auth;
     FirebaseDatabase database;
     DatabaseReference databaseReference;
 
@@ -45,12 +50,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        //GET INFO FROM INTENT
-        Bundle b = getIntent().getExtras();
-        if(b != null) {
-            currentUserStoredEmail = b.getString("email");
-        }
-
         //LOAD COMPONENTS FROM XML
         txProfileEmail = findViewById(R.id.txProfileEmailField);
         txProfileEmail.setText(currentUserStoredEmail);
@@ -58,6 +57,13 @@ public class ProfileActivity extends AppCompatActivity {
         imgProfileImage = findViewById(R.id.imgProfileImage);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
         btnChangePassword = findViewById(R.id.btnChangePassword);
+
+        //AUTH
+        auth = FirebaseAuth.getInstance();
+
+        //DATABASE
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("/users");
 
         //SET LISTENER FOR SAVE BUTTON
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
@@ -100,14 +106,52 @@ public class ProfileActivity extends AppCompatActivity {
                 });
             }
         });
+
+        //GET INFO FROM INTENT
+        Bundle b = getIntent().getExtras();
+        if(b != null) {
+            currentUserStoredEmail = b.getString("email");
+        }else {
+            loadProfileData();
+        }
+    }
+
+    public void loadProfileData(){
+        String email = auth.getCurrentUser().getEmail();
+
+        if(email == null){
+            return;
+        }else {
+            currentUserStoredEmail = email;
+            txProfileEmail.setText(email);
+        }
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    UserTest u = child.getValue(UserTest.class);
+
+                    if(u != null){
+                        if(u.getEmail().equals(currentUserStoredEmail)){
+                            txProfileName.setText(u.getName());
+                            break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void saveProfileData(String name){
-        database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("/users");
 
         databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("name").setValue(txProfileName.getText().toString());
-        Task t = databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("email").setValue(txProfileEmail.getText().toString());
+        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("email").setValue(txProfileEmail.getText().toString());
 
         Intent i = new Intent(ProfileActivity.this, MainActivity.class);
         startActivity(i);
@@ -121,14 +165,18 @@ public class ProfileActivity extends AppCompatActivity {
             Uri selectImage = data.getData();
             String[] filePath = { MediaStore.Images.Media.DATA };
 
-            Cursor cursor = getContentResolver().query(selectImage, filePath, null, null, null);
-            cursor.moveToFirst();
+            if(selectImage != null) {
+                Cursor cursor = getContentResolver().query(selectImage, filePath, null, null, null);
+                cursor.moveToFirst();
 
-            int columnIndex = cursor.getColumnIndex(filePath[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
+                int columnIndex = cursor.getColumnIndex(filePath[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
 
-            imgProfileImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                imgProfileImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
+                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("picPath").setValue(picturePath);
+            }
         }
     }
 }

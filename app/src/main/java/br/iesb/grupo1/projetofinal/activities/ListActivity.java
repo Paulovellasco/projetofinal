@@ -117,7 +117,7 @@ public class ListActivity extends AppCompatActivity {
             UserTest user = listaUsuarios.get(position);
 
             holder.txtRecycleName.setText(user.getName());
-            holder.txtRecycleAlias.setText(user.getAlias());
+            holder.txtRecycleAlias.setText(user.getEmail());
             holder.user = user;
         }
 

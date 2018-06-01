@@ -6,22 +6,16 @@ package br.iesb.grupo1.projetofinal.util;
 
 public class UserTest {
 
+    String email;
     String name;
-    String alias;
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getAlias() {
-        return alias;
-    }
+    public String getEmail() { return email; }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
+    public void setEmail(String email) { this.email = email; }
 }

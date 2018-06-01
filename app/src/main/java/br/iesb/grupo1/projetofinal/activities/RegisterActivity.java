@@ -106,7 +106,6 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent t = new Intent(RegisterActivity.this,ProfileActivity.class);
-                            t.putExtra("email", email);
                             startActivity(t);
                         }
                     }
