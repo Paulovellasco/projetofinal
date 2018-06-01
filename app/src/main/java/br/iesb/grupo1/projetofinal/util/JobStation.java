@@ -112,4 +112,10 @@ public class JobStation {
     public void setUf(String uf) {
         this.uf = uf;
     }
+
+    @Override
+    public String toString() {
+        String str =  codPosto + ", " + nome + ", " + entidadeConveniada + ", " + endereco;
+        return str;
+    }
 }

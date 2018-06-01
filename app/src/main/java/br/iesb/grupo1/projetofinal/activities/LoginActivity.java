@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Intent t = new Intent(LoginActivity.this, MainActivity.class);
+                            Intent t = new Intent(LoginActivity.this, ListActivity.class);
                             startActivity(t);
                         } else {
                             Toast.makeText(LoginActivity.this, "A tentativa de Login falhou, tente novamente",
