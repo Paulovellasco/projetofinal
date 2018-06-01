@@ -10,7 +10,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import br.iesb.grupo1.projetofinal.R;
-import br.iesb.grupo1.projetofinal.util.Job;
 import br.iesb.grupo1.projetofinal.util.JobStation;
 import retrofit2.Call;
 import retrofit2.Callback;
