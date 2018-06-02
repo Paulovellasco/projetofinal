@@ -1,11 +1,15 @@
 package br.iesb.grupo1.projetofinal.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -26,10 +30,22 @@ public class JobListActivity extends AppCompatActivity {
     Retrofit retrofitJob;
     String URL_BASE = "http://mobile-aceite.tcu.gov.br/mapa-da-saude/" ;
 
+    private ImageView userImg;
+    private TextView userName;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_list);
+
+        userImg = findViewById(R.id.userImg);
+        userImg.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(JobListActivity.this, ProfileActivity.class));
+            }
+        });
+
 
         retrofitJob = new Retrofit.Builder()
                 .baseUrl(URL_BASE)
