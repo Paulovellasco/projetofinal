@@ -66,10 +66,12 @@ public class JobListActivity extends AppCompatActivity {
         Call<List<JobStation>> listaEstacoesTrabalho = jss.listarEmpregos();
 
 
-        JobListAdapter  jobAdapter = new JobListAdapter(this,jobStationArray);
-        RecyclerView jobRecycle = findViewById(R.id.jobRecicleView);
-        jobRecycle.setAdapter(ja);
-        jobRecycle.setLayoutManager(new LinearLayoutManager(this));
+//        JobListAdapter  jobAdapter = new JobListAdapter(this,jobStationArray);
+//        RecyclerView jobRecycle = findViewById(R.id.jobRecicleView);
+//        jobRecycle.setAdapter(ja);
+//        jobRecycle.setLayoutManager(new LinearLayoutManager(this));
+
+
 
 
         listaEstacoesTrabalho.enqueue(new Callback<List<JobStation>>() {
@@ -80,10 +82,11 @@ public class JobListActivity extends AppCompatActivity {
                     if(lista != null && lista.size()>0){
                         for (JobStation j : lista) {
                             jobStationArray.add(j);
-
+                            System.out.println(jobStationArray);
 
 
                         }
+                        mostraDados(jobStationArray);
                     }
                 }
 
@@ -98,6 +101,13 @@ public class JobListActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void mostraDados(ArrayList<JobStation> arrayJob ){
+        RecyclerView rv = findViewById(R.id.jobRecicleView);
+        //arrayJob ->fonte de dados
+        rv.setAdapter(new JobListAdapter(this,arrayJob));
+        rv.setLayoutManager(new LinearLayoutManager(this));
     }
 
 }
