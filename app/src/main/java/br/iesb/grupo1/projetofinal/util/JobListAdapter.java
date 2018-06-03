@@ -18,6 +18,7 @@ import br.iesb.grupo1.projetofinal.R;
 public class JobListAdapter extends RecyclerView.Adapter<JobListViewHolder>{
 
     private Context contexto;
+
     private List<JobStation> listaTrabalhos;
 
     public JobListAdapter(Context contexto , List<JobStation> listaTrabalhos){
@@ -34,13 +35,15 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull JobListViewHolder holder, int position) {
         JobStation jStation  = listaTrabalhos.get(position);
+
         holder.txtEntidadeConveniadaHolder.setText(jStation.getEntidadeConveniada());
         holder.txtNomeVagaHolder.setText((jStation.getNome()));
-        holder.jStation = jStation;
+        holder.jobStation = jStation;
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return listaTrabalhos.size();
     }
 }

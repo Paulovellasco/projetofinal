@@ -1,5 +1,6 @@
 package br.iesb.grupo1.projetofinal.activities;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -90,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Intent t = new Intent(LoginActivity.this, ListActivity.class);
+                            Intent t = new Intent(LoginActivity.this, JobListActivity.class);
                             startActivity(t);
                         } else {
                             Toast.makeText(LoginActivity.this, "A tentativa de Login falhou, tente novamente",

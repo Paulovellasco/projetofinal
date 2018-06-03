@@ -15,6 +15,7 @@ public class JobListViewHolder extends RecyclerView.ViewHolder implements View.O
 
     public TextView txtEntidadeConveniadaHolder;
     public TextView txtNomeVagaHolder;
+    public JobStation jobStation;
 
     public JobListViewHolder(View itemView) {
         super(itemView);

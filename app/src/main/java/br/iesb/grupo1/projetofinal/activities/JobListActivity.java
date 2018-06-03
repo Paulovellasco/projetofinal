@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -12,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.iesb.grupo1.projetofinal.R;
+import br.iesb.grupo1.projetofinal.util.JobListAdapter;
+import br.iesb.grupo1.projetofinal.util.JobListViewHolder;
 import br.iesb.grupo1.projetofinal.util.JobStation;
 import br.iesb.grupo1.projetofinal.util.JobStationService;
 import retrofit2.Call;
@@ -32,6 +36,10 @@ public class JobListActivity extends AppCompatActivity {
 
     private ImageView userImg;
     private TextView userName;
+    private ArrayList<JobStation> jobStationArray = new ArrayList<>();
+
+    private JobListAdapter ja;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +66,12 @@ public class JobListActivity extends AppCompatActivity {
         Call<List<JobStation>> listaEstacoesTrabalho = jss.listarEmpregos();
 
 
+        JobListAdapter  jobAdapter = new JobListAdapter(this,jobStationArray);
+        RecyclerView jobRecycle = findViewById(R.id.jobRecicleView);
+        jobRecycle.setAdapter(ja);
+        jobRecycle.setLayoutManager(new LinearLayoutManager(this));
+
+
         listaEstacoesTrabalho.enqueue(new Callback<List<JobStation>>() {
             @Override
             public void onResponse(Call<List<JobStation>> call, Response<List<JobStation>> response) {
@@ -65,6 +79,9 @@ public class JobListActivity extends AppCompatActivity {
                     List<JobStation> lista = response.body();
                     if(lista != null && lista.size()>0){
                         for (JobStation j : lista) {
+                            jobStationArray.add(j);
+
+
 
                         }
                     }
@@ -79,8 +96,8 @@ public class JobListActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
-
-
 
 }

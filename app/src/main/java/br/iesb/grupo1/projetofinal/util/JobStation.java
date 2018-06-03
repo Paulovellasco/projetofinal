@@ -118,4 +118,6 @@ public class JobStation {
         String str =  codPosto + ", " + nome + ", " + entidadeConveniada + ", " + endereco;
         return str;
     }
+
+
 }

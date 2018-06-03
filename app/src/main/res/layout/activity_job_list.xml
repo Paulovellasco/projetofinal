@@ -31,6 +31,7 @@
         app:srcCompat="@drawable/logo" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/jobRecicleView"
         android:layout_width="368dp"
         android:layout_height="383dp"
         android:layout_marginBottom="8dp"

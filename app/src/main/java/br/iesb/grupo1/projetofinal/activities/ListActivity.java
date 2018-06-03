@@ -61,6 +61,9 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+
+
+
         rva = new UserRecycleViewAdapter(this,userArray);
         rv = findViewById(R.id.testRecycle);
         rv.setAdapter(rva);
@@ -72,7 +75,7 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
-    class UserViewHolder extends RecyclerView.ViewHoder implements View.OnClickListener {
+    class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView txtRecycleName;
         public TextView txtRecycleAlias;
