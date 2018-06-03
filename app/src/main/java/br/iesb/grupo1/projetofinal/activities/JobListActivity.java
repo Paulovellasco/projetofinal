@@ -105,7 +105,6 @@ public class JobListActivity extends AppCompatActivity {
 
     public void mostraDados(ArrayList<JobStation> arrayJob ){
         RecyclerView rv = findViewById(R.id.jobRecicleView);
-        //arrayJob ->fonte de dados
         rv.setAdapter(new JobListAdapter(this,arrayJob));
         rv.setLayoutManager(new LinearLayoutManager(this));
     }

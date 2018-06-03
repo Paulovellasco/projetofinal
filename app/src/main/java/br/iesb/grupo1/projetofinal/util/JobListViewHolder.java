@@ -1,11 +1,15 @@
 package br.iesb.grupo1.projetofinal.util;
 
 import android.content.ClipData;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import br.iesb.grupo1.projetofinal.R;
+import br.iesb.grupo1.projetofinal.activities.JobDescriptionActivity;
+import br.iesb.grupo1.projetofinal.activities.JobListActivity;
 
 /**
  * Created by 1614290072 on 01/06/2018.
@@ -32,6 +36,8 @@ public class JobListViewHolder extends RecyclerView.ViewHolder implements View.O
 
     @Override
     public void onClick(View v) {
-        //TODO no clique da vaga
+        Context context  = v.getContext();
+        Intent t = new Intent(context,JobDescriptionActivity.class);
+        context.startActivity(t);
     }
 }

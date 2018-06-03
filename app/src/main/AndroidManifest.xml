@@ -11,8 +11,8 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/catho"
-        android:label="Catho Vagas"
+        android:icon="@drawable/mainicon"
+        android:label="Buscador de Vagas"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -36,7 +36,8 @@
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.RetrieveActivity" />
         <activity android:name=".activities.ListActivity" />
-        <activity android:name=".activities.JobListActivity"></activity>
+        <activity android:name=".activities.JobListActivity" />
+        <activity android:name=".activities.JobDescriptionActivity"></activity>
     </application>
 
 </manifest>
