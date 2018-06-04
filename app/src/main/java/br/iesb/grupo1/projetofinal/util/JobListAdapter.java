@@ -38,6 +38,7 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListViewHolder>{
 
         holder.txtEntidadeConveniadaHolder.setText(jStation.getEntidadeConveniada());
         holder.txtNomeVagaHolder.setText((jStation.getNome()));
+        holder.codPosto = jStation.getCodPosto();
         holder.jobStation = jStation;
 
     }

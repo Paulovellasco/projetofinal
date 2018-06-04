@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class JobListViewHolder extends RecyclerView.ViewHolder implements View.O
 
     public TextView txtEntidadeConveniadaHolder;
     public TextView txtNomeVagaHolder;
+    public String codPosto;
     public JobStation jobStation;
 
     public JobListViewHolder(View itemView) {
@@ -38,6 +40,8 @@ public class JobListViewHolder extends RecyclerView.ViewHolder implements View.O
     public void onClick(View v) {
         Context context  = v.getContext();
         Intent t = new Intent(context,JobDescriptionActivity.class);
+        t.putExtra("codPosto",codPosto);
+        Log.d(">>>>>>>>>>>>>>>>",codPosto);
         context.startActivity(t);
     }
 }

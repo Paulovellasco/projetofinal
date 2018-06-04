@@ -54,7 +54,6 @@ public class JobListActivity extends AppCompatActivity {
             }
         });
 
-
         retrofitJob = new Retrofit.Builder()
                 .baseUrl(URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -63,20 +62,14 @@ public class JobListActivity extends AppCompatActivity {
 
         jss = retrofitJob.create(JobStationService.class);
 
+        //pega os dados da api
         Call<List<JobStation>> listaEstacoesTrabalho = jss.listarEmpregos();
 
-
-//        JobListAdapter  jobAdapter = new JobListAdapter(this,jobStationArray);
-//        RecyclerView jobRecycle = findViewById(R.id.jobRecicleView);
-//        jobRecycle.setAdapter(ja);
-//        jobRecycle.setLayoutManager(new LinearLayoutManager(this));
-
-
-
-
+        //faz uma verificacao se a requisicao veio corretamente
         listaEstacoesTrabalho.enqueue(new Callback<List<JobStation>>() {
             @Override
             public void onResponse(Call<List<JobStation>> call, Response<List<JobStation>> response) {
+                //se a verificacao foi correta faz um FOR com o objeto e coloca em um array de objetos do tipo especificado
                 if(response.isSuccessful()){
                     List<JobStation> lista = response.body();
                     if(lista != null && lista.size()>0){
@@ -86,6 +79,7 @@ public class JobListActivity extends AppCompatActivity {
 
 
                         }
+                        //ao final do for chama o metodo para mostar os dados na tela , passando o array de obejtos
                         mostraDados(jobStationArray);
                     }
                 }
@@ -104,8 +98,13 @@ public class JobListActivity extends AppCompatActivity {
     }
 
     public void mostraDados(ArrayList<JobStation> arrayJob ){
+        //set a recyclerView que vai ser ultilizada
         RecyclerView rv = findViewById(R.id.jobRecicleView);
+
+        //set o Adaptador de dados para view, os dados sao o array de objetos
         rv.setAdapter(new JobListAdapter(this,arrayJob));
+
+        //define de que forma os dados serao mostrados
         rv.setLayoutManager(new LinearLayoutManager(this));
     }
 
