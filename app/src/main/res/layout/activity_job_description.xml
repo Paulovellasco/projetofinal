@@ -241,12 +241,57 @@
         app:layout_constraintStart_toEndOf="@+id/textView18"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapDescricao"
-        android:layout_width="348dp"
-        android:layout_height="150dp"
+    <ImageView
+        android:id="@+id/imgMap"
+        android:layout_width="112dp"
+        android:layout_height="108dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imgSign"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/map" />
+
+    <ImageView
+        android:id="@+id/imgSign"
+        android:layout_width="150dp"
+        android:layout_height="105dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="46dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgMap"
+        app:srcCompat="@drawable/sign" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="22dp"
+        android:text="Localizacao"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imgMap"
+        app:layout_constraintEnd_toStartOf="@+id/textView20"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+        app:layout_constraintTop_toBottomOf="@+id/txtUfDescricao" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="192dp"
+        android:text="Quero me Candidatar !"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imgSign"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView19"
+        app:layout_constraintTop_toBottomOf="@+id/txtEnderecoDescricao" />
+
 </android.support.constraint.ConstraintLayout>

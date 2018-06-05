@@ -1,16 +1,11 @@
 package br.iesb.grupo1.projetofinal.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
@@ -23,7 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class JobDescriptionActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class JobDescriptionActivity extends AppCompatActivity{
 
     String codPosto;
     TextView txtNome;
@@ -41,9 +36,8 @@ public class JobDescriptionActivity extends AppCompatActivity implements OnMapRe
     String URL_BASE = "http://mobile-aceite.tcu.gov.br/mapa-da-saude/" ;
     JobStationService jss;
 
-
-    private GoogleMap mMap;
-    private SupportMapFragment mapFragment;
+    ImageView imgMap;
+    ImageView imgSign;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +54,13 @@ public class JobDescriptionActivity extends AppCompatActivity implements OnMapRe
         txtUf = findViewById(R.id.txtUfDescricao);
 
         Bundle b = getIntent().getExtras();
-        if(b==null){
+        if (b == null) {
             try {
                 throw new Exception();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             codPosto = b.getString("codPosto");
         }
 
@@ -81,11 +75,11 @@ public class JobDescriptionActivity extends AppCompatActivity implements OnMapRe
         vaga.enqueue(new Callback<List<JobStation>>() {
             @Override
             public void onResponse(Call<List<JobStation>> call, Response<List<JobStation>> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
 
-                }else{
+                } else {
                     List<JobStation> lista = response.body();
-                    if(lista != null && lista.size()>0){
+                    if (lista != null && lista.size() > 0) {
                         for (JobStation j : lista) {
                             txtNome.setText(j.getNome());
                             txtEntidade.setText(j.getEntidadeConveniada());
@@ -96,7 +90,7 @@ public class JobDescriptionActivity extends AppCompatActivity implements OnMapRe
                             txtMunicipio.setText(j.getMunicipio());
                             txtUf.setText(j.getUf());
                             lat = j.getLat();
-                            lat = j.getLongitude();
+                            lng = j.getLongitude();
                         }
                     }
                 }
@@ -108,20 +102,25 @@ public class JobDescriptionActivity extends AppCompatActivity implements OnMapRe
             }
         });
 
-        //parte do mapa--->
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapDescricao);
-//        mapFragment.getMapAsync(JobDescriptionActivity.this);
+        imgMap = findViewById(R.id.imgMap);
+        imgMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent t = new Intent(JobDescriptionActivity.this,JobMapActivity.class);
+                t.putExtra("lat",lat);
+                t.putExtra("lng",lng);
+                startActivity(t);
+            }
+        });
+        imgSign = findViewById(R.id.imgSign);
+        imgSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent t = new Intent(JobDescriptionActivity.this,SignActivity.class);
+                startActivity(t);
+            }
+        });
 
-
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        LatLng local = new LatLng(lat,lng);
-        mMap.addMarker(new MarkerOptions().position(local).title("Emprego aqui !"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(local));
     }
 }

@@ -37,7 +37,9 @@
         <activity android:name=".activities.RetrieveActivity" />
         <activity android:name=".activities.ListActivity" />
         <activity android:name=".activities.JobListActivity" />
-        <activity android:name=".activities.JobDescriptionActivity"></activity>
+        <activity android:name=".activities.JobDescriptionActivity" />
+        <activity android:name=".activities.SignActivity" />
+        <activity android:name=".activities.JobMapActivity"/>
     </application>
 
 </manifest>

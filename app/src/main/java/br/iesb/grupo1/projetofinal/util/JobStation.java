@@ -1,11 +1,6 @@
 package br.iesb.grupo1.projetofinal.util;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.http.GET;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Paulo on 28/05/2018.
@@ -23,6 +18,7 @@ public class JobStation {
     public String municipio;
     public String uf;
     public double lat;
+    @SerializedName("long")
     public double longitude;
 
     public String getCodPosto() {
