@@ -188,14 +188,12 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 uploadedImageURL = taskSnapshot.getDownloadUrl().toString();
-                Log.d("<<<<<<<<<<<<<<<<<<<<<< ", uploadedImageURL + " >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                //SAVE PROFILE DATA INTO DATABASE
+                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("name").setValue(txProfileName.getText().toString());
+                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("email").setValue(txProfileEmail.getText().toString());
+                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("picturePath").setValue(uploadedImageURL);
             }
         });
-
-        //SAVE PROFILE DATA INTO DATABASE
-        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("name").setValue(txProfileName.getText().toString());
-        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("email").setValue(txProfileEmail.getText().toString());
-        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("picturePath").setValue(uploadedImageURL);
 
         Intent i = new Intent(ProfileActivity.this, JobListActivity.class);
         startActivity(i);
