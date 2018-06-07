@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -16,7 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +28,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 
 import br.iesb.grupo1.projetofinal.R;
 import br.iesb.grupo1.projetofinal.util.UserTest;
@@ -35,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
     String currentUserStoredEmail;
 
     ImageView imgProfileImage;
+    String uploadedImageURL;
 
     Button btnSaveProfile;
     Button btnChangePassword;
@@ -42,6 +52,8 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     DatabaseReference databaseReference;
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
     private static final int RESULT_LOAD_IMG = 1;
 
@@ -64,6 +76,8 @@ public class ProfileActivity extends AppCompatActivity {
         //DATABASE
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("/users");
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference("profiles/");
 
         //SET LISTENER FOR SAVE BUTTON
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +149,9 @@ public class ProfileActivity extends AppCompatActivity {
                     if(u != null){
                         if(u.getEmail().equals(currentUserStoredEmail)){
                             txProfileName.setText(u.getName());
+                            String temp = u.getPicturePath();
+                            if(u.getPicturePath() != null && u.getPicturePath() != "")
+                                Glide.with(ProfileActivity.this).load(u.getPicturePath()).into(imgProfileImage);
                             break;
                         }
                     }
@@ -150,18 +167,45 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void saveProfileData(String name){
 
+        //UPLOAD IMAGE TO STORAGE
+        BitmapDrawable bitmap = (BitmapDrawable) imgProfileImage.getDrawable();
+
+        if (bitmap.getBitmap() == null) {
+            return;
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        byte[] byteData = outputStream.toByteArray();
+
+        UploadTask uploadTask = storageReference.putBytes(byteData);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProfileActivity.this, "Failed to upload file", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                uploadedImageURL = taskSnapshot.getDownloadUrl().toString();
+                Log.d("<<<<<<<<<<<<<<<<<<<<<< ", uploadedImageURL + " >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            }
+        });
+
+        //SAVE PROFILE DATA INTO DATABASE
         databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("name").setValue(txProfileName.getText().toString());
         databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("email").setValue(txProfileEmail.getText().toString());
+        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("picturePath").setValue(uploadedImageURL);
 
-        Intent i = new Intent(ProfileActivity.this, MainActivity.class);
+        Intent i = new Intent(ProfileActivity.this, JobListActivity.class);
         startActivity(i);
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data){
+            //SELECT IMAGE FROM GALLERY
             Uri selectImage = data.getData();
             String[] filePath = { MediaStore.Images.Media.DATA };
 
@@ -174,8 +218,6 @@ public class ProfileActivity extends AppCompatActivity {
                 cursor.close();
 
                 imgProfileImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-
-                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("picPath").setValue(picturePath);
             }
         }
     }
