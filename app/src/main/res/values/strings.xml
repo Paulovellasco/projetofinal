@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Projeto Final</string>
+    <string name="title_activity_maps_login">Map</string>
 </resources>
